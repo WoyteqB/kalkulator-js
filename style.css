@@ -26,6 +26,7 @@ html, body{
     font-size: 18px;
     line-height: 22px;
     margin-top: 10px;
+    height: 32px;
 }
 .kalkulator .kalkulator__display-second-line{
     font-size: 40px;
