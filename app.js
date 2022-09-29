@@ -24,6 +24,10 @@ buttons.forEach( button => button.addEventListener("click", (e)=> buttonClick(e.
 const buttonClick = (value, className) => {
     
     if(className === "number"){
+        if(lastAction === "="){
+            setDisplayFirstLine(firstNumber);
+        }
+
         if(value === "," && tmpNumber.includes(",")){
             console.log("Error - już jest jeden przecinek w liczbie");
         }else if(value === "0" && tmpNumber ==="0"){
@@ -34,7 +38,7 @@ const buttonClick = (value, className) => {
             setDisplaySecondLine(tmpNumber);
         }
     }else if(className === "action"){
-
+        console.log("Akcja (L1:"+firstNumber+", L2: "+tmpNumber+", Last action: "+lastAction+", Action: "+ value +")")
         if(lastAction === ""){
             firstNumber = parseInt(tmpNumber);
             setDisplayFirstLine(tmpNumber+" "+value);
@@ -49,11 +53,22 @@ const buttonClick = (value, className) => {
                     setDisplaySecondLine(firstNumber);
                     tmpNumber = "0"
                     brake;
-                default:                 
-                    setDisplayFirstLine(firstNumber +" "+ lastAction +" "+ tmpNumber);
-                    firstNumber = makeAction(firstNumber, parseInt(tmpNumber), lastAction);
-                    setDisplaySecondLine(firstNumber);
+                default: 
+                    
+                    if(tmpNumber === 0 && lastAction === "/"){
+                        setDisplayFirstLine("");
+                        setDisplaySecondLine("Nie można dzielic przez 0");
+                        firstNumber=0;
+                        lastAction="";
+                    }else{     
+                        firstNumber = makeAction(firstNumber, parseInt(tmpNumber), lastAction);
+                        setDisplayFirstLine(firstNumber +" "+ value);
+                        setDisplaySecondLine("0");
+                        tmpNumber = "0"
+                    }           
+                    
             }
+            lastAction = value;
         }
 
         
@@ -68,6 +83,12 @@ let makeAction = (value1, value2, action) => {
             break;
         case "-":
             return value1 - value2;
+            break;
+        case "x":
+            return value1 * value2;
+            break;
+        case "/":
+            return value1 / value2;
             break;
         default:
             console.log("MakeAction - brak działania");
