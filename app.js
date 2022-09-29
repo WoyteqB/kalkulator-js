@@ -24,16 +24,31 @@ buttons.forEach( button => button.addEventListener("click", (e)=> buttonClick(e.
 const buttonClick = (value, className) => {
     
     if(className === "number"){
+        
         if(lastAction === "="){
-            setDisplayFirstLine(firstNumber);
+            setDisplayFirstLine("");
+            lastAction = "";
+            firstNumber = 0;
+            tmpNumber=""
+            console.log("liczba po =");
         }
 
         if(value === "," && tmpNumber.includes(",")){
             console.log("Error - już jest jeden przecinek w liczbie");
         }else if(value === "0" && tmpNumber ==="0"){
             console.log("Error - jedno zero na przodzie wystarczy");
+        }else if( value === "DEL"){
+            if(tmpNumber !== "0"){
+                tmpNumber.length === 1 ? tmpNumber = "0" : tmpNumber = tmpNumber.slice(0,tmpNumber.length-1);
+                setDisplaySecondLine(tmpNumber);
+            }
+        }else if( value === "CE"){
+            tmpNumber = "0";
+            setDisplaySecondLine(tmpNumber);
+        }else if( value === "+/-"){
+            tmpNumber = (parseInt(tmpNumber) * -1).toString();
+            setDisplaySecondLine(tmpNumber);
         }else{
-
             tmpNumber ==="0" && value!=="0" ? tmpNumber = value : tmpNumber = tmpNumber + value;
             setDisplaySecondLine(tmpNumber);
         }
@@ -45,13 +60,18 @@ const buttonClick = (value, className) => {
             setDisplaySecondLine(0);
             tmpNumber="0";
             lastAction = value;
+        }else if(lastAction === "="){
+            setDisplayFirstLine(firstNumber+" "+value);
+            setDisplaySecondLine(0);
+            tmpNumber="0";
+            lastAction = value;
         }else{
             switch(value){
                 case "=":
                     setDisplayFirstLine(firstNumber +" "+ lastAction +" "+ tmpNumber +" =");
                     firstNumber = makeAction(firstNumber, parseInt(tmpNumber), lastAction);
                     setDisplaySecondLine(firstNumber);
-                    tmpNumber = "0"
+                    lastAction="=";
                     brake;
                 default: 
                     
@@ -60,6 +80,7 @@ const buttonClick = (value, className) => {
                         setDisplaySecondLine("Nie można dzielic przez 0");
                         firstNumber=0;
                         lastAction="";
+                        break;
                     }else{     
                         firstNumber = makeAction(firstNumber, parseInt(tmpNumber), lastAction);
                         setDisplayFirstLine(firstNumber +" "+ value);
