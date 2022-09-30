@@ -44,6 +44,9 @@ html, body{
     background-color: #e6e6e6;
     cursor: pointer;
 }
+.kalkulator .kalkulator__panel-memory button:hover{
+    background-color: #ccc;
+}
 .kalkulator .kalkulator__panel-bth{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr ;
@@ -55,7 +58,7 @@ html, body{
     background-color: #fafafa;
     cursor: pointer;
 }
-.kalkulator .action{
+.kalkulator .dark{
     background-color: #f0f0f0;
 }
 .kalkulator .action:hover,
