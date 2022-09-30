@@ -7,6 +7,7 @@ const buttons = document.querySelectorAll(".kalkulator__panel-bth button");
 //displayFirstLine.innerHTML = ""
 //console.log(numberButtons);
 
+
 let firstNumber = 0;
 let tmpNumber = "";
 let lastAction = "";
@@ -28,7 +29,6 @@ const buttonClick = (value, className) => {
             lastAction = "";
             firstNumber = 0;
             tmpNumber=""
-            console.log("liczba po =");
         }
 
         if(value === "," && tmpNumber.includes(".")){
@@ -44,7 +44,7 @@ const buttonClick = (value, className) => {
             tmpNumber = "0";
             setDisplaySecondLine(tmpNumber);
         }else if( value === "+/-"){
-            tmpNumber = (parseInt(tmpNumber) * -1).toString();
+            tmpNumber = (parseFloat(tmpNumber) * -1).toString();
             setDisplaySecondLine(tmpNumber);
         }else if( value === ","){
             tmpNumber = tmpNumber + ".";
@@ -54,9 +54,8 @@ const buttonClick = (value, className) => {
             setDisplaySecondLine(tmpNumber);
         }
     }else if(className.includes("action")){
-        console.log("Akcja (L1:"+firstNumber+", L2: "+tmpNumber+", Last action: "+lastAction+", Action: "+ value +")")
+        //console.log("Akcja (L1:"+firstNumber+", L2: "+tmpNumber+", Last action: "+lastAction+", Action: "+ value +")")
         if(value == "C"){
-            console.log("action C");
             setDisplayFirstLine("");
             setDisplaySecondLine(0);
             tmpNumber="0";
@@ -66,43 +65,41 @@ const buttonClick = (value, className) => {
         }else if( value === "√"){
             if(lastAction === ""){
                 setDisplayFirstLine("√("+tmpNumber+")");
-                tmpNumber = Math.sqrt(parseInt(tmpNumber));
+                tmpNumber = Math.sqrt(parseFloat(tmpNumber)).toFixed(8);
                 setDisplaySecondLine(tmpNumber);
             }else{
                 setDisplayFirstLine(firstNumber +" "+lastAction+" √("+tmpNumber+")");
-                tmpNumber = Math.sqrt(parseInt(tmpNumber));
+                tmpNumber = Math.sqrt(parseFloat(tmpNumber)).toFixed(8);
                 setDisplaySecondLine(tmpNumber);
             }
 
         }else if( value === "x<sup>2</sup>"){
             if(lastAction === ""){
                 setDisplayFirstLine("sqr("+tmpNumber+")");
-                tmpNumber = Math.pow(parseInt(tmpNumber),2);
+                tmpNumber = Math.pow(parseFloat(tmpNumber),2);
                 setDisplaySecondLine(tmpNumber);
             }else{
                 setDisplayFirstLine(firstNumber +" "+lastAction+" "+tmpNumber+"<sup>2</sup>");
-                tmpNumber = Math.pow(parseInt(tmpNumber),2);
+                tmpNumber = Math.pow(parseFloat(tmpNumber),2);
                 setDisplaySecondLine(tmpNumber);
             }
         }else if( value === "<sup>1</sup>/<sub>x</sub>"){
             if(lastAction === ""){
                 setDisplayFirstLine("1/"+tmpNumber+")");
-                tmpNumber = 1/parseInt(tmpNumber);
+                tmpNumber = 1/parseFloat(tmpNumber);
                 setDisplaySecondLine(tmpNumber);
             }else{
                 setDisplayFirstLine(firstNumber +" "+lastAction+" 1/"+tmpNumber);
-                tmpNumber = 1/parseInt(tmpNumber);
+                tmpNumber = 1/parseFloat(tmpNumber);
                 setDisplaySecondLine(tmpNumber);
             }
         }else if(lastAction === ""){
-            console.log("last action empty");
-            firstNumber = parseInt(tmpNumber);
+            firstNumber = parseFloat(tmpNumber);
             setDisplayFirstLine(tmpNumber+" "+value);
             setDisplaySecondLine(0);
             tmpNumber="0";
             lastAction = value;
         }else if(lastAction === "="){
-            console.log("last action =");
             setDisplayFirstLine(firstNumber+" "+value);
             setDisplaySecondLine(0);
             tmpNumber="0";
@@ -110,14 +107,12 @@ const buttonClick = (value, className) => {
         }else{
             switch(value){
                 case "=":
-                    console.log("action =");
                     setDisplayFirstLine(firstNumber +" "+ lastAction +" "+ tmpNumber +" =");
-                    firstNumber = makeAction(firstNumber, parseInt(tmpNumber), lastAction);
+                    firstNumber = makeAction(firstNumber, parseFloat(tmpNumber), lastAction);
                     setDisplaySecondLine(firstNumber);
                     lastAction="=";
                     break;
                 default: 
-                    console.log("action def "+ value);
                     if(tmpNumber === 0 && lastAction === "/"){
                         setDisplayFirstLine("");
                         setDisplaySecondLine("Nie można dzielic przez 0");
@@ -125,7 +120,7 @@ const buttonClick = (value, className) => {
                         lastAction="";
                         
                     }else{     
-                        firstNumber = makeAction(firstNumber, parseInt(tmpNumber), lastAction);
+                        firstNumber = makeAction(firstNumber, parseFloat(tmpNumber), lastAction);
                         setDisplayFirstLine(firstNumber +" "+ value);
                         setDisplaySecondLine("0");
                         tmpNumber = "0"
@@ -150,10 +145,10 @@ let makeAction = (value1, value2, action) => {
             return value1 - value2;
             break;
         case "x":
-            return value1 * value2;
+            return (value1 * value2).toFixed(8);
             break;
         case "/":
-            return value1 / value2;
+            return (value1 / value2).toFixed(8);
             break;
         default:
             console.log("MakeAction - brak działania");
