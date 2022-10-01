@@ -7,7 +7,6 @@ const buttons = document.querySelectorAll(".kalkulator__panel-bth button");
 //displayFirstLine.innerHTML = ""
 //console.log(numberButtons);
 
-
 let firstNumber = 0;
 let tmpNumber = "";
 let lastAction = "";
@@ -86,11 +85,11 @@ const buttonClick = (value, className) => {
         }else if( value === "<sup>1</sup>/<sub>x</sub>"){
             if(lastAction === ""){
                 setDisplayFirstLine("1/"+tmpNumber+")");
-                tmpNumber = 1/parseFloat(tmpNumber);
+                tmpNumber = parseFloat((1/parseFloat(tmpNumber)).toFixed(8));
                 setDisplaySecondLine(tmpNumber);
             }else{
                 setDisplayFirstLine(firstNumber +" "+lastAction+" 1/"+tmpNumber);
-                tmpNumber = 1/parseFloat(tmpNumber);
+                tmpNumber = parseFloat((1/parseFloat(tmpNumber)).toFixed(8));
                 setDisplaySecondLine(tmpNumber);
             }
         }else if(lastAction === ""){
@@ -145,10 +144,10 @@ let makeAction = (value1, value2, action) => {
             return value1 - value2;
             break;
         case "x":
-            return (value1 * value2).toFixed(8);
+            return parseFloat((value1 * value2).toFixed(8));
             break;
         case "/":
-            return (value1 / value2).toFixed(8);
+            return parseFloat((value1 / value2).toFixed(8));
             break;
         default:
             console.log("MakeAction - brak działania");
