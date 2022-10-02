@@ -64,11 +64,11 @@ const buttonClick = (value, className) => {
         }else if( value === "√"){
             if(lastAction === ""){
                 setDisplayFirstLine("√("+tmpNumber+")");
-                tmpNumber = Math.sqrt(parseFloat(tmpNumber)).toFixed(8);
+                tmpNumber = Math.sqrt(parseFloat(parseFloat(tmpNumber)).toFixed(8));
                 setDisplaySecondLine(tmpNumber);
             }else{
                 setDisplayFirstLine(firstNumber +" "+lastAction+" √("+tmpNumber+")");
-                tmpNumber = Math.sqrt(parseFloat(tmpNumber)).toFixed(8);
+                tmpNumber = Math.sqrt(parseFloat(parseFloat(tmpNumber)).toFixed(8));
                 setDisplaySecondLine(tmpNumber);
             }
 
