@@ -112,7 +112,7 @@ const buttonClick = (value, className) => {
                     lastAction="=";
                     break;
                 default: 
-                    if(tmpNumber === 0 && lastAction === "/"){
+                    if(tmpNumber === "0" && lastAction === "/"){
                         setDisplayFirstLine("");
                         setDisplaySecondLine("Nie można dzielic przez 0");
                         firstNumber=0;
@@ -138,10 +138,11 @@ const buttonClick = (value, className) => {
 let makeAction = (value1, value2, action) => {
     switch(action){
         case "+":
-            return value1+value2;
+
+            return parseFloat((value1 + value2).toFixed(8));
             break;
         case "-":
-            return value1 - value2;
+            return parseFloat((value1 - value2).toFixed(8));
             break;
         case "x":
             return parseFloat((value1 * value2).toFixed(8));
